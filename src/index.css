@@ -2,6 +2,7 @@
   --bg: #fff0f5;
   --panel: #ffffff;
   --text: #1f2937;
+  --accent: #7e0404;
   --radius: 16px;
   --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
@@ -52,11 +53,27 @@ html, body, #root {
 .surface {
     border: 1px solid #e5e7eb;
     background: #fafafa;
-    border-radius: 12px;
+    border-radius: var(--radius);
     flex: 1;
     overflow: hidden;
     padding: var(--radius);
 
     min-height: 0;
     
+}
+
+
+button{
+    border-radius: var(--radius);
+    margin: 10px 0;
+    height: 50px;
+
+    background: var(--accent);
+    border: none;
+    color:white;
+    transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+    background: #9b0505;
 }

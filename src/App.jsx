@@ -9,7 +9,10 @@ export default function App() {
       </div>
       <div className="panel">
         <h2 className="panel__title">Elements</h2>
-        <div className="surface"></div>
+        <div className="surface">
+          lista
+        </div>
+        <button className="button">+</button>
       </div>
       <div className="panel">
         <h2 className="panel__title">Parametrs</h2>
