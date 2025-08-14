@@ -77,3 +77,15 @@ button{
 button:hover {
     background: #9b0505;
 }
+
+.layer {
+    background: #d4d4d4;
+    border-radius: var(--radius);
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.2s ease;
+
+}
