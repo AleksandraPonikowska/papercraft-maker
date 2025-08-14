@@ -15,18 +15,6 @@ export default function App() {
     setLayers([...layers, newLayer]);
   };
 
-  const dragLayer = useRef(null); 
-  const draggedOverLayer = useRef(null);
-
-  function handleSort() {
-    const layersClone = [...layers];
-    const temp = layersClone[dragLayer.current];
-    layersClone[dragLayer.current] = layersClone[draggedOverLayer.current];
-    layersClone[draggedOverLayer.current] = temp;
-    setLayers(layersClone);
-    dragLayer.current = null;
-    draggedOverLayer.current = null;
-  }
   return (
     <div className="container">
       <div className="panel">
@@ -36,19 +24,14 @@ export default function App() {
       <div className="panel">
         <h2 className="panel__title">Elements</h2>
         <div className="surface">
-          {layers.map((layer, index) => (
-            <div className = "layer"
-              draggable
-              onDragStart ={() => {dragLayer.current = index}}
-              onDragEnter ={() => {draggedOverLayer.current = index}}
-              onDragEnd = {handleSort}
-              onDragOver = {(e) => e.preventDefault()}
-            >  
-              {layer.name}
-            </div>
+          {layers.map(el => (
+            <Layer
+              name={el.name}
+              type={el.type}
+            />
           ))}
         </div>
-        <button className="button" onClick={addLayer}>+</button>
+        <button className="add_button" onClick={addLayer}>+</button>
       </div>
       <div className="panel">
         <h2 className="panel__title">Parametrs</h2>
