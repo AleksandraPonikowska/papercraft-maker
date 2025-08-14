@@ -102,6 +102,11 @@ button{
 
 }
 
+.layer:hover {
+    transform: scale(1.02);
+    background: #d6d6d6;
+}
+
 .layer__buttons {
     display: flex;
     flex-direction: column;
