@@ -1,27 +1,29 @@
 import React, {useState, useRef} from "react";
 import Layer from "./Layer";
 import CanvasView from "./CanvasView";
+import Parameters from "./Parameters";
+
 
 export default function App() {
 
   const [layers, setLayers] = useState([
     {
       id: 1,
-      name: "Layer 1",
+      name: "Standee",
       type: 0,
-      parameter: [100, 100, 150]
+      parameter: [100, 100, 20]
     },
     {
       id: 2,
-      name: "Layer 2",
-      type: 0,
-      parameter: [150, 200, 150]
+      name: "Body",
+      type: 1,
+      parameter: [[25, 30],38,[36,36],47,[16,20]]
     },
     {
       id: 3,
-      name: "Layer 3",
-      type: 0,
-      parameter: [100, 100, 100]
+      name: "Head",
+      type: 2,
+      parameter: [100, 45]
     }
   ]);
 
@@ -59,7 +61,6 @@ export default function App() {
               state={layer.id === hoveredId ? 1 : 0}
               onHoverChange={hover => setHoveredId(hover ? layer.id : null)}
               onClickChange={select => setSelectedId(select ? layer.id : null)}
-
             />
           ))}
         </div>
@@ -67,7 +68,9 @@ export default function App() {
       </div>
       <div className="panel">
         <h2 className="panel__title">Parametrs</h2>
-        <div className="surface"></div>
+        <div className="surface">
+          <Parameters layers={layers} selectedId={selectedId} setLayers={setLayers}/>
+        </div>
       </div>
     </div>
   );
