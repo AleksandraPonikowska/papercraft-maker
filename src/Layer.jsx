@@ -1,7 +1,7 @@
 // src/Layer.jsx
 import React from "react";
 
-export default function Layer({ name, type, onHoverChange, onClickChange }) {
+export default function Layer({ name, type, onHoverChange, onClickChange, onArrowUp, onArrowDown }) {
   return (
     <div className="layer"
         onMouseEnter={() => onHoverChange(true)}
@@ -10,8 +10,8 @@ export default function Layer({ name, type, onHoverChange, onClickChange }) {
         >
     
         <div className = "layer__buttons"> 
-            <button className = "layer__button">▲</button>
-            <button className = "layer__button">▼</button>
+            <button className = "layer__button" onClick= {onArrowDown}>▲</button>
+            <button className = "layer__button" onClick = {onArrowUp}>▼</button>
         </div>
         <div className="layer__type">
 

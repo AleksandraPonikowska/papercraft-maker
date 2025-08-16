@@ -61,6 +61,18 @@ export default function App() {
               state={layer.id === hoveredId ? 1 : 0}
               onHoverChange={hover => setHoveredId(hover ? layer.id : null)}
               onClickChange={select => setSelectedId(select ? layer.id : null)}
+
+              onArrowUp={() => {if (index > 0) {
+                const newLayers = [...layers];
+                [newLayers[index - 1], newLayers[index]] = [newLayers[index], newLayers[index - 1]];
+                setLayers(newLayers);
+              }}}
+              onArrowDown={() => {if (index < layers.length - 1) {
+                const newLayers = [...layers];
+                [newLayers[index + 1], newLayers[index]] = [newLayers[index], newLayers[index + 1]];
+                setLayers(newLayers);
+              }}}
+
             />
           ))}
         </div>
