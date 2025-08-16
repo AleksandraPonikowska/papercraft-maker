@@ -37,6 +37,10 @@ export default function Parameters({ layers, selectedId, setLayers }) {
           </label>
         </div>
       ))}
+
+      <button onClick={() => setLayers(layers.filter(layer => layer.id !== selectedId))}>
+        Delete Layer 
+      </button>
     </div>
   );
 }
