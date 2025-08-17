@@ -17,7 +17,13 @@ export default function App() {
       id: 2,
       name: "Body",
       type: 1,
-      parameter: [[25, 30],38,[36,36],47,[16,20]]
+      parameter: [25, 30,38,36,36,47,16,20]
+    },
+    {
+      id: 4,
+      name: "Hands",
+      type: 3,
+      parameter: [15,20,60,30]
     },
     {
       id: 3,

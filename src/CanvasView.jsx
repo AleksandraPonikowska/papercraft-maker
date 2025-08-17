@@ -31,7 +31,7 @@ export default function CanvasView({ layers, hoveredId, selectedId }) {
 
       layers.forEach(layer => {
         if (layer.type === 1) {
-          const [[a1, b1],h1, [a2,b2],h2,[a3,b3]] = layer.parameter;
+          const [a1, b1,h1, a2,b2,h2,a3,b3] = layer.parameter;
 
           for(let i = 0; i < 2; i++) {
 
@@ -181,6 +181,50 @@ export default function CanvasView({ layers, hoveredId, selectedId }) {
           }
 
           yOffset -= radius;
+        } else if (layer.type == 3) {
+
+          const [a,b,c,d] = layer.parameter;
+
+          for (let i = 0; i < 2; i++) {
+            const y = yOffset;
+            const x = i === 0 ? canvas.width / 4 : (canvas.width / 4) * 3;
+            ctx.beginPath();
+            
+            if (i === 0) {
+              ctx.moveTo(x + 16/2, y)
+              ctx.lineTo(x + 16/2 + c, y);
+              ctx.lineTo(x + 16/2 + c, y+a);
+              ctx.lineTo(x + 16/2 + d, y+a);
+
+              ctx.lineTo(x + 16/2, y);
+
+
+              ctx.moveTo(x - 16/2, y)
+              ctx.lineTo(x - 16/2 - c, y);
+              ctx.lineTo(x - 16/2 - c, y+a);
+              ctx.lineTo(x - 16/2 - d, y+a);
+
+              ctx.lineTo(x - 16/2, y);
+            } else {
+              ctx.moveTo(x +16/2, y);
+            }
+
+            
+
+            if (layer.id === hoveredId) {
+              ctx.fillStyle = "#e9e9e9ff";
+              ctx.fill();
+            }
+
+            if (layer.id === selectedId) {
+              ctx.fillStyle = "#e0c1c1ff";
+              ctx.fill();
+            }
+
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "#000000ff";
+            ctx.stroke();
+          }
         }
 
 
