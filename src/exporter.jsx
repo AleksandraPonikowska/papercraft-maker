@@ -40,4 +40,22 @@ function drawError(ctx, parameters) {
 function drawCubeNet(ctx, parameters) {
     ctx.fillStyle = "#fff";
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+
+    const [a = 80, b = 80, h = 80] = parameters;
+
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 2;
+
+    const startX = 50;
+    const startY = 50 + b;
+
+    ctx.strokeRect(startX, startY, a, h);
+    ctx.strokeRect(startX+a, startY, b, h);
+    ctx.strokeRect(startX+a+b, startY, a, h);
+    ctx.strokeRect(startX+a+b+a, startY, b, h);
+
+    ctx.strokeRect(startX+a+b, startY, a, b);
+    ctx.strokeRect(startX+a+b, startY+h, a, -b);
+
 }
