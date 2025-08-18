@@ -55,7 +55,7 @@ function drawCubeNet(ctx, parameters) {
     ctx.strokeRect(startX+a+b, startY, a, h);
     ctx.strokeRect(startX+a+b+a, startY, b, h);
 
-    ctx.strokeRect(startX+a+b, startY, a, b);
-    ctx.strokeRect(startX+a+b, startY+h, a, -b);
+    ctx.strokeRect(startX+a+b, startY, a, -b);
+    ctx.strokeRect(startX+a+b, startY+h, a, b);
 
 }
