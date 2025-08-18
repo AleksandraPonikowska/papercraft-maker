@@ -2,6 +2,8 @@ import React, {useState, useRef} from "react";
 import Layer from "./Layer";
 import CanvasView from "./CanvasView";
 import Parameters from "./Parameters";
+import { exportLayers } from "./exporter";
+
 
 
 export default function App() {
@@ -89,6 +91,7 @@ export default function App() {
         <div className="surface">
           <Parameters layers={layers} selectedId={selectedId} setLayers={setLayers}/>
         </div>
+        <button className="add_button" onClick={() => exportLayers(layers)}>export to png</button>
       </div>
     </div>
   );

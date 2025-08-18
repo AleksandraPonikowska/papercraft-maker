@@ -12,7 +12,9 @@
   "dependencies": {
     "@react-three/drei": "^10.6.1",
     "@react-three/fiber": "^9.3.0",
+    "file-saver": "^2.0.5",
     "jspdf": "^3.0.1",
+    "jszip": "^3.10.1",
     "react": "^19.1.1",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^19.1.1",
