@@ -37,6 +37,25 @@ function drawError(ctx, parameters) {
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 }
 
+function drawFold(ctx, line, depth){
+
+  const [x1, y1, x2, y2] = line;
+
+  const deltaX = x2 - x1;
+
+  ctx.strokeStyle = "#bbbbbbff";
+  ctx.lineWidth = 2;
+
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x1 + deltaX/4, y1 - depth);
+  ctx.lineTo(x2 - deltaX/4, y2 - depth);
+  ctx.lineTo(x2, y2);
+  ctx.closePath();
+  ctx.stroke();
+
+}
+
 function drawCubeNet(ctx, parameters) {
     ctx.fillStyle = "#fff";
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -45,21 +64,12 @@ function drawCubeNet(ctx, parameters) {
     const [a = 80, b = 80, h = 80] = parameters;
 
     
+
+    
     const startX = 50;
     const startY = 50 + b;
 
-    ctx.strokeStyle = "#bbbbbbff";
-    ctx.lineWidth = 2;
-
-    ctx.beginPath();
-    ctx.moveTo(startX, startY);
-    ctx.lineTo(startX + a/4, startY+ h/4);
-    ctx.lineTo(startX + a - a/4, startY+ h/4);
-    ctx.lineTo(startX + a, startY);
-    ctx.closePath();
-    ctx.stroke();
-
-
+    drawFold(ctx, [startX, startY, startX+a, startY], 50);
 
     ctx.strokeStyle = "#000";
     ctx.lineWidth = 2;
