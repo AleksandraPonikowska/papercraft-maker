@@ -44,11 +44,26 @@ function drawCubeNet(ctx, parameters) {
 
     const [a = 80, b = 80, h = 80] = parameters;
 
+    
+    const startX = 50;
+    const startY = 50 + b;
+
+    ctx.strokeStyle = "#bbbbbbff";
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(startX + a/4, startY+ h/4);
+    ctx.lineTo(startX + a - a/4, startY+ h/4);
+    ctx.lineTo(startX + a, startY);
+    ctx.closePath();
+    ctx.stroke();
+
+
+
     ctx.strokeStyle = "#000";
     ctx.lineWidth = 2;
 
-    const startX = 50;
-    const startY = 50 + b;
 
     ctx.strokeRect(startX, startY, a, h);
     ctx.strokeRect(startX+a, startY, b, h);
