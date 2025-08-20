@@ -32,12 +32,19 @@ export default function App() {
       name: "Head",
       type: 2,
       parameter: [100, 45]
-    }
+    },
+    {
+      id: 4,
+      name: "Standee 2",
+      type: 0,
+      parameter: [100, 100, 20]
+    },
   ]);
 
   const [hoveredId, setHoveredId] = useState(null);
   const [selectedId, setSelectedId] = useState(-1);
 
+  const canvasRef = useRef(null);
 
 
   
@@ -56,7 +63,7 @@ export default function App() {
       <div className="panel">
         <h2 className="panel__title">View</h2>
         <div className="surface">
-          <CanvasView layers={layers} hoveredId={hoveredId} selectedId = {selectedId}/>
+          <CanvasView layers={layers} hoveredId={hoveredId} selectedId = {selectedId} canvasRef={canvasRef}/>
         </div>
       </div>
       <div className="panel">
@@ -91,7 +98,7 @@ export default function App() {
         <div className="surface">
           <Parameters layers={layers} selectedId={selectedId} setLayers={setLayers}/>
         </div>
-        <button className="add_button" onClick={() => exportLayers(layers)}>export to png</button>
+        <button className="add_button" onClick={() => exportLayers(layers, canvasRef)}>export to png</button>
       </div>
     </div>
   );

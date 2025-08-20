@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 
-export default function CanvasView({ layers, hoveredId, selectedId }) {
-  const canvasRef = useRef(null);
+export default function CanvasView({ layers, hoveredId, selectedId, canvasRef }) {
+  
   const containerRef = useRef(null);
 
   useEffect(() => {

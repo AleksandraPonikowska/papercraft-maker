@@ -1,13 +1,14 @@
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 
-export async function exportLayers(layers) {
+export async function exportLayers(layers, canvasRef) {
 
   const zip = new JSZip();
 
   for (let layer of layers) {
 
-    const canvas = document.createElement("canvas");
+    //const canvas = document.createElement("canvas");
+    const canvas = canvasRef.current;
     canvas.width = 500;
     canvas.height = 500;
     const ctx = canvas.getContext("2d");
@@ -17,7 +18,7 @@ export async function exportLayers(layers) {
         drawCubeNet(ctx, layer.parameter);
         break;
       default:
-        drawError(ctx);
+        //drawError(ctx);
         break;
     }
 
@@ -29,12 +30,12 @@ export async function exportLayers(layers) {
   }
 
   const content = await zip.generateAsync({ type: "blob" });
-  saveAs(content, "papercraft_layers.zip");
+  //saveAs(content, "papercraft_layers.zip");
 }
 
 function drawError(ctx, parameters) {
     ctx.fillStyle = "#ff0000ff";
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    //ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 }
 
 function drawFold(ctx, line, depth){
@@ -69,7 +70,15 @@ function drawCubeNet(ctx, parameters) {
     const startX = 50;
     const startY = 50 + b;
 
-    drawFold(ctx, [startX, startY, startX+a, startY], 50);
+    drawFold(ctx, [startX, startY, startX+a, startY], 20);
+    drawFold(ctx, [startX+a, startY, startX+a+b, startY], 20);
+    drawFold(ctx, [startX+a+b+a, startY, startX+a+b+a+b, startY], 20);
+
+    drawFold(ctx, [startX, startY, startX+a, startY], 20);
+    drawFold(ctx, [startX+a, startY, startX+a+b, startY], 20);
+    drawFold(ctx, [startX+a+b+a, startY, startX+a+b+a+b, startY], 20);
+
+
 
     ctx.strokeStyle = "#000";
     ctx.lineWidth = 2;
