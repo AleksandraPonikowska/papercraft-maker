@@ -87,12 +87,12 @@ function drawCubeNet(ctx, parameters) {
 
     drawFold(ctx, [startX, startY, startX+a, startY], 20);
     drawFold(ctx, [startX+a, startY, startX+a+b, startY], 20);
-    drawFold(ctx, [startX+a+b, startY-b, startX+a+b+a, startY-b], 20);
+    //drawFold(ctx, [startX+a+b, startY-b, startX+a+b+a, startY-b], 20);
     drawFold(ctx, [startX+a+b+a, startY, startX+a+b+a+b, startY], 20);
 
     drawFold(ctx, [startX, startY+h, startX+a, startY+h], -20);
     drawFold(ctx, [startX+a, startY+h, startX+a+b, startY+h], -20);
-    drawFold(ctx, [startX+a+b, startY+b+h, startX+a+b+a, startY+b+h], -20);
+    //drawFold(ctx, [startX+a+b, startY+b+h, startX+a+b+a, startY+b+h], -20);
     drawFold(ctx, [startX+a+b+a, startY+h, startX+a+b+a+b, startY+h], -20);
 
     drawFold(ctx, [startX+a+b+a+b, startY, startX+a+b+a+b, startY+h], 20);
