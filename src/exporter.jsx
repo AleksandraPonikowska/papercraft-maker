@@ -53,14 +53,19 @@ function drawFold(ctx, line, depth) {
   const offsetX = nx * depth;
   const offsetY = ny * depth;
 
+  const x1Offset = x1 + offsetX;
+  const y1Offset = y1 + offsetY;
+  const x2Offset = x2 + offsetX;
+  const y2Offset = y2 + offsetY;
+
   ctx.strokeStyle = "#bbbbbbff";
   ctx.lineWidth = 2;
 
   ctx.beginPath();
   ctx.moveTo(x1, y1);
   ctx.lineTo(x2, y2);
-  ctx.lineTo((x2 + offsetX*3/4), (y2 + offsetY*3/4));
-  ctx.lineTo(x1 + offsetX*3/4, y1 + offsetY*3/4);
+  ctx.lineTo(x2Offset * 3/4 + x1Offset * 1/4, y2Offset * 3/4 + y1Offset * 1/4);
+  ctx.lineTo(x2Offset * 1/4 + x1Offset * 3/4, y2Offset * 1/4 + y1Offset * 3/4);
   ctx.closePath();
   ctx.stroke();
 }
