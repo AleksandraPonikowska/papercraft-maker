@@ -38,24 +38,34 @@ function drawError(ctx, parameters) {
     //ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 }
 
-function drawFold(ctx, line, depth){
 
+function drawFold(ctx, line, depth) {
   const [x1, y1, x2, y2] = line;
 
-  const deltaX = x2 - x1;
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+
+  const len = Math.sqrt(dx * dx + dy * dy);
+
+  const nx = dy / len;
+  const ny = -dx / len;
+
+  const offsetX = nx * depth;
+  const offsetY = ny * depth;
 
   ctx.strokeStyle = "#bbbbbbff";
   ctx.lineWidth = 2;
 
   ctx.beginPath();
   ctx.moveTo(x1, y1);
-  ctx.lineTo(x1 + deltaX/4, y1 - depth);
-  ctx.lineTo(x2 - deltaX/4, y2 - depth);
   ctx.lineTo(x2, y2);
+  ctx.lineTo((x2 + offsetX*3/4), (y2 + offsetY*3/4));
+  ctx.lineTo(x1 + offsetX*3/4, y1 + offsetY*3/4);
   ctx.closePath();
   ctx.stroke();
-
 }
+
+
 
 function drawCubeNet(ctx, parameters) {
     ctx.fillStyle = "#fff";
@@ -75,10 +85,10 @@ function drawCubeNet(ctx, parameters) {
     drawFold(ctx, [startX+a+b, startY-b, startX+a+b+a, startY-b], 20);
     drawFold(ctx, [startX+a+b+a, startY, startX+a+b+a+b, startY], 20);
 
-    drawFold(ctx, [startX, startY+h, startX+a, startY+h], 20);
-    drawFold(ctx, [startX+a, startY+h, startX+a+b, startY+h], 20);
-    drawFold(ctx, [startX+a+b, startY+b+h, startX+a+b+a, startY+b+h], 20);
-    drawFold(ctx, [startX+a+b+a, startY+h, startX+a+b+a+b, startY+h], 20);
+    drawFold(ctx, [startX, startY+h, startX+a, startY+h], -20);
+    drawFold(ctx, [startX+a, startY+h, startX+a+b, startY+h], -20);
+    drawFold(ctx, [startX+a+b, startY+b+h, startX+a+b+a, startY+b+h], -20);
+    drawFold(ctx, [startX+a+b+a, startY+h, startX+a+b+a+b, startY+h], -20);
 
     drawFold(ctx, [startX+a+b+a+b, startY, startX+a+b+a+b, startY+h], 20);
 
