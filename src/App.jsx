@@ -22,23 +22,24 @@ export default function App() {
       parameter: [25, 30,38,36,36,47,16,20]
     },
     {
-      id: 4,
+      id: 3,
       name: "Hands",
       type: 3,
       parameter: [15,20,60,30]
     },
     {
-      id: 3,
+      id: 4,
       name: "Head",
       type: 2,
       parameter: [100, 45]
     },
     {
-      id: 4,
-      name: "Standee 2",
-      type: 0,
-      parameter: [100, 100, 20]
-    },
+      id: 5,
+      name: "Hands",
+      type: 3,
+      parameter: [15,20,60,30]
+    }
+
   ]);
 
   const [hoveredId, setHoveredId] = useState(null);

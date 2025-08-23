@@ -17,6 +17,9 @@ export async function exportLayers(layers, canvasRef) {
       case 0:
         drawCubeNet(ctx, layer.parameter);
         break;
+      case 3:
+        drawHands(ctx, layer.parameter);
+        break;
       default:
         //drawError(ctx);
         break;
@@ -77,11 +80,8 @@ function drawCubeNet(ctx, parameters) {
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
 
-    const [a = 80, b = 80, h = 80] = parameters;
+    const [a, b, h] = parameters;
 
-    
-
-    
     const startX = 50;
     const startY = 50 + b;
 
@@ -110,5 +110,37 @@ function drawCubeNet(ctx, parameters) {
 
     ctx.strokeRect(startX+a+b, startY, a, -b);
     ctx.strokeRect(startX+a+b, startY+h, a, b);
+
+}
+
+
+function drawHands(ctx, parameters) {
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+
+    const [a, b, c, d] = parameters;
+    
+    const startX = 50;
+    const startY = 50;
+
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+
+    ctx.moveTo(startX + 16/2, startY)
+    ctx.lineTo(startX + 16/2 + c, startY);
+    ctx.lineTo(startX + 16/2 + c, startY+a);
+    ctx.lineTo(startX + 16/2 + d, startY+a);
+    ctx.lineTo(startX + 16/2, startY);
+    ctx.stroke();
+
+    ctx.moveTo(startX - 16/2, startY);
+    ctx.lineTo(startX - 16/2 - c, startY);
+    ctx.lineTo(startX - 16/2 - c, startY+a);
+    ctx.lineTo(startX - 16/2 - d, startY+a);
+    ctx.lineTo(startX - 16/2, startY);
+    ctx.stroke();
 
 }
