@@ -129,18 +129,31 @@ function drawHands(ctx, parameters) {
 
     ctx.beginPath();
 
-    ctx.moveTo(startX + 16/2, startY)
-    ctx.lineTo(startX + 16/2 + c, startY);
-    ctx.lineTo(startX + 16/2 + c, startY+a);
-    ctx.lineTo(startX + 16/2 + d, startY+a);
-    ctx.lineTo(startX + 16/2, startY);
+    ctx.moveTo(startX, startY)
+    ctx.lineTo(startX + d, startY);
+    ctx.lineTo(startX + c, startY+a);
+    ctx.lineTo(startX + c, startY+a+b);
+    ctx.lineTo(startX + d, startY+a+b+a);
+    ctx.lineTo(startX + d, startY+a+b+a);
+    ctx.lineTo(startX, startY+a+b+a);
+    ctx.lineTo(startX, startY)
+
     ctx.stroke();
 
-    ctx.moveTo(startX - 16/2, startY);
-    ctx.lineTo(startX - 16/2 - c, startY);
-    ctx.lineTo(startX - 16/2 - c, startY+a);
-    ctx.lineTo(startX - 16/2 - d, startY+a);
-    ctx.lineTo(startX - 16/2, startY);
+
+    ctx.moveTo(startX + c + 16, startY+a)
+    ctx.lineTo(startX + c + 16, startY+a+b)
+    ctx.lineTo(startX + c + 16 + d , startY+a+b+a)
+    ctx.lineTo(startX + c + 16 + c , startY+a+b+a)
+    ctx.lineTo(startX + c + 16 + c , startY)
+    ctx.lineTo(startX + c + 16 + d , startY)
+    ctx.lineTo(startX + c + 16, startY+a)
+
     ctx.stroke();
+
+    ctx.strokeRect(startX, startY+a, 16+c+c, b);
+
+
+
 
 }
