@@ -17,6 +17,9 @@ export async function exportLayers(layers, canvasRef) {
       case 0:
         drawCubeNet(ctx, layer.parameter);
         break;
+      case 1:
+        drawBody(ctx, layer.parameter);
+        break;
       case 3:
         drawHands(ctx, layer.parameter);
         break;
@@ -153,6 +156,29 @@ function drawHands(ctx, parameters) {
 
     ctx.strokeRect(startX, startY+a, 16+c+c, b);
 
+
+
+
+}
+
+function drawBody(ctx, parameters) {
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+
+    const [a, b, c, d, e, f, g, h] = parameters;
+    
+    const startX = 50;
+    const startY = 50;
+
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+
+    ctx.moveTo(startX, startY)
+    ctx.strokeRect(startX, startY, g,h);
+    ctx.stroke()
 
 
 

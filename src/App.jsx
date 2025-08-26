@@ -35,9 +35,9 @@ export default function App() {
     },
     {
       id: 5,
-      name: "Hands",
-      type: 3,
-      parameter: [15,20,60,30]
+      name: "Body",
+      type: 1,
+      parameter: [25, 30,38,36,36,47,16,20]
     }
 
   ]);
