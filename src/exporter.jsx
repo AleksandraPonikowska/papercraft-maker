@@ -161,6 +161,15 @@ function drawHands(ctx, parameters) {
 
 }
 
+function generateTrapezePoints(a, b, h){
+    return [
+        [0,0],
+        [a,0],
+        [a+(b-a)/2,h],
+        [-(b-a)/2,h]
+    ]
+}
+
 function drawBody(ctx, parameters) {
     ctx.fillStyle = "#fff";
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -171,20 +180,27 @@ function drawBody(ctx, parameters) {
     const startX = 50;
     const startY = 50;
 
-    const przod = Math.sqrt(f*f + (e-h)/2 * (e-h)/2);
+    const front_h = Math.sqrt(f*f + (e-h)/2 * (e-h)/2);
 
     ctx.strokeStyle = "#000";
     ctx.lineWidth = 2;
 
     ctx.beginPath();
 
-    ctx.moveTo(startX, startY)
     ctx.strokeRect(startX, startY, g,h);
-    ctx.moveTo(startX+g, startY+h);
-    ctx.lineTo(startX+g+(d-g)/2, startY+h+przod);
-    ctx.lineTo(startX-(d-g)/2, startY+h+przod);
-    ctx.lineTo(startX, startY+h);
 
-    ctx.stroke()
+
+    const points = generateTrapezePoints(g, d, front_h);
+
+    ctx.beginPath();
+    ctx.moveTo(startX + points[0][0], startY + points[0][1]);
+
+    for (const point of points.slice(1)) {
+        ctx.lineTo(startX + point[0], startY + point[1]);
+    }
+
+    ctx.closePath();
+    ctx.stroke();
+
 
 }
