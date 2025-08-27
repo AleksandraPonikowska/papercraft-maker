@@ -171,6 +171,8 @@ function drawBody(ctx, parameters) {
     const startX = 50;
     const startY = 50;
 
+    const przod = Math.sqrt(f*f + (e-h)/2 * (e-h)/2);
+
     ctx.strokeStyle = "#000";
     ctx.lineWidth = 2;
 
@@ -178,8 +180,11 @@ function drawBody(ctx, parameters) {
 
     ctx.moveTo(startX, startY)
     ctx.strokeRect(startX, startY, g,h);
+    ctx.moveTo(startX+g, startY+h);
+    ctx.lineTo(startX+g+(d-g)/2, startY+h+przod);
+    ctx.lineTo(startX-(d-g)/2, startY+h+przod);
+    ctx.lineTo(startX, startY+h);
+
     ctx.stroke()
-
-
 
 }
