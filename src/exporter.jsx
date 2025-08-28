@@ -181,13 +181,14 @@ function drawBody(ctx, parameters) {
     const startY = 50;
 
     const front_h = Math.sqrt(f*f + (e-h)/2 * (e-h)/2);
+    const side_h = Math.sqrt(f*f + (d-g)/2 * (d-g)/2);
 
     ctx.strokeStyle = "#000";
     ctx.lineWidth = 2;
 
     ctx.beginPath();
-
     ctx.strokeRect(startX, startY, g,h);
+    ctx.closePath();
 
 
     const points = generateTrapezePoints(g, d, front_h);
@@ -201,6 +202,18 @@ function drawBody(ctx, parameters) {
 
     ctx.closePath();
     ctx.stroke();
+
+    const points2 = generateTrapezePoints(h, e, side_h);
+
+
+    ctx.beginPath();
+    ctx.moveTo(startX + points2[0][0] + d, startY + points2[0][1]);
+    for (const point of points2.slice(1)) {
+        ctx.lineTo(startX + point[0] + d, startY + point[1]);
+    }
+    ctx.closePath();
+    ctx.stroke();
+
 
 
 }
