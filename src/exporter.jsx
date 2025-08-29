@@ -170,6 +170,10 @@ function generateTrapezePoints(a, b, h){
     ]
 }
 
+function translatePoints(points, dx, dy) {
+    return points.map(([x, y]) => [x + dx, y + dy]);
+}
+
 function drawBody(ctx, parameters) {
     ctx.fillStyle = "#fff";
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -203,13 +207,14 @@ function drawBody(ctx, parameters) {
     ctx.closePath();
     ctx.stroke();
 
-    const points2 = generateTrapezePoints(h, e, side_h);
+    let points2 = generateTrapezePoints(h, e, side_h);
+    points2 = translatePoints(points2, d, 0);
 
 
     ctx.beginPath();
-    ctx.moveTo(startX + points2[0][0] + d, startY + points2[0][1]);
+    ctx.moveTo(startX + points2[0][0], startY + points2[0][1]);
     for (const point of points2.slice(1)) {
-        ctx.lineTo(startX + point[0] + d, startY + point[1]);
+        ctx.lineTo(startX + point[0], startY + point[1]);
     }
     ctx.closePath();
     ctx.stroke();
