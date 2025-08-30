@@ -181,7 +181,7 @@ function drawBody(ctx, parameters) {
 
     const [a, b, c, d, e, f, g, h] = parameters;
     
-    const startX = 50;
+    const startX = 50+50;
     const startY = 50;
 
     const front_h = Math.sqrt(f*f + (e-h)/2 * (e-h)/2);
@@ -191,7 +191,7 @@ function drawBody(ctx, parameters) {
     ctx.lineWidth = 2;
 
     ctx.beginPath();
-    ctx.strokeRect(startX, startY, g,h);
+    ctx.strokeRect(startX, startY, g,-h);
     ctx.closePath();
 
 
@@ -215,6 +215,26 @@ function drawBody(ctx, parameters) {
     ctx.moveTo(startX + points2[0][0], startY + points2[0][1]);
     for (const point of points2.slice(1)) {
         ctx.lineTo(startX + point[0], startY + point[1]);
+    }
+    ctx.closePath();
+    ctx.stroke();
+
+    let points0 = translatePoints(points2, -d-(d-g)/2 - e + (e-h)/2, 0);
+
+    ctx.beginPath();
+    ctx.moveTo(startX + points0[0][0], startY + points0[0][1]);
+    for (const point of points0.slice(1)) {
+        //ctx.lineTo(startX + point[0], startY + point[1]);
+    }
+    ctx.closePath();
+    ctx.stroke();
+
+    let points3 = translatePoints(points, d+e, 0);
+
+    ctx.beginPath();
+    ctx.moveTo(startX + points3[0][0], startY + points3[0][1]);
+    for (const point of points3.slice(1)) {
+        //ctx.lineTo(startX + point[0], startY + point[1]);
     }
     ctx.closePath();
     ctx.stroke();
