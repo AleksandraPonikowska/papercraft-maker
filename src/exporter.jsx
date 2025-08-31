@@ -163,16 +163,37 @@ function drawHands(ctx, parameters) {
 
 function generateTrapezePoints(a, b, h){
     return [
-        [0,0],
-        [a,0],
-        [a+(b-a)/2,h],
-        [-(b-a)/2,h]
+      [0,0],
+      [a,0],
+      [a+(b-a)/2 ,h ],
+      [-(b-a)/2, h]
+     
+             
     ]
 }
 
 function translatePoints(points, dx, dy) {
     return points.map(([x, y]) => [x + dx, y + dy]);
 }
+
+function gluePoints(t0, p0, t1, p1) {
+  let deltaX = t1[p0][0] - t0[p1][0];
+  let deltaY = t1[p0][1] - t0[p1][1];
+  return translatePoints(t0, deltaX, deltaY);
+}
+
+function drawPoints(ctx, points) {
+    ctx.beginPath();
+    ctx.moveTo(points[0][0], points[0][1]);
+    for (const point of points.slice(1)) {
+        ctx.lineTo(point[0], point[1]);
+    }
+    ctx.closePath();
+    ctx.stroke();
+  }
+
+
+
 
 function drawBody(ctx, parameters) {
     ctx.fillStyle = "#fff";
@@ -181,7 +202,7 @@ function drawBody(ctx, parameters) {
 
     const [a, b, c, d, e, f, g, h] = parameters;
     
-    const startX = 50+50;
+    const startX = 50;
     const startY = 50;
 
     const front_h = Math.sqrt(f*f + (e-h)/2 * (e-h)/2);
@@ -191,54 +212,16 @@ function drawBody(ctx, parameters) {
     ctx.lineWidth = 2;
 
     ctx.beginPath();
-    ctx.strokeRect(startX, startY, g,-h);
+    ctx.strokeRect(startX, startY, g,h);
     ctx.closePath();
 
-
-    const points = generateTrapezePoints(g, d, front_h);
-
-    ctx.beginPath();
-    ctx.moveTo(startX + points[0][0], startY + points[0][1]);
-
-    for (const point of points.slice(1)) {
-        ctx.lineTo(startX + point[0], startY + point[1]);
-    }
-
-    ctx.closePath();
-    ctx.stroke();
+    let points = generateTrapezePoints(g, d, front_h);
+    points = translatePoints(points, startX, startY+h);
+    drawPoints(ctx,points);
 
     let points2 = generateTrapezePoints(h, e, side_h);
-    points2 = translatePoints(points2, d, 0);
+    points2 = gluePoints(points2, 2, points, 3);
 
-
-    ctx.beginPath();
-    ctx.moveTo(startX + points2[0][0], startY + points2[0][1]);
-    for (const point of points2.slice(1)) {
-        ctx.lineTo(startX + point[0], startY + point[1]);
-    }
-    ctx.closePath();
-    ctx.stroke();
-
-    let points0 = translatePoints(points2, -d-(d-g)/2 - e + (e-h)/2, 0);
-
-    ctx.beginPath();
-    ctx.moveTo(startX + points0[0][0], startY + points0[0][1]);
-    for (const point of points0.slice(1)) {
-        //ctx.lineTo(startX + point[0], startY + point[1]);
-    }
-    ctx.closePath();
-    ctx.stroke();
-
-    let points3 = translatePoints(points, d+e, 0);
-
-    ctx.beginPath();
-    ctx.moveTo(startX + points3[0][0], startY + points3[0][1]);
-    for (const point of points3.slice(1)) {
-        //ctx.lineTo(startX + point[0], startY + point[1]);
-    }
-    ctx.closePath();
-    ctx.stroke();
-
-
+    drawPoints(ctx,points2);
 
 }
