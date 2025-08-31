@@ -176,10 +176,38 @@ function translatePoints(points, dx, dy) {
     return points.map(([x, y]) => [x + dx, y + dy]);
 }
 
+function rotatePoints(points, angle) {
+  const cos = Math.cos(angle);
+  const sin = Math.sin(angle);
+  return points.map(([x, y]) => [
+    x * cos - y * sin,
+    x * sin + y * cos
+  ]);
+}
+
 function gluePoints(t0, p0, t1, p1) {
-  let deltaX = t1[p0][0] - t0[p1][0];
-  let deltaY = t1[p0][1] - t0[p1][1];
-  return translatePoints(t0, deltaX, deltaY);
+
+  let shifted = translatePoints(t0, -t0[p1][0], -t0[p1][1]);
+
+  let nextP1 = (p1 + 1) % t0.length;
+  let v0 = [
+    t0[nextP1][0] - t0[p1][0],
+    t0[nextP1][1] - t0[p1][1]
+  ];
+
+  let nextP0 = (p0 - 1) % t1.length;
+  let v1 = [
+    t1[nextP0][0] - t1[p0][0],
+    t1[nextP0][1] - t1[p0][1]
+  ];
+
+  let angle0 = Math.atan2(v0[1], v0[0]);
+  let angle1 = Math.atan2(v1[1], v1[0]);
+  let rotation = angle1 - angle0;
+
+  let rotated = rotatePoints(shifted, rotation);
+
+  return translatePoints(rotated, t1[p0][0], t1[p0][1]);
 }
 
 function drawPoints(ctx, points) {
@@ -215,12 +243,12 @@ function drawBody(ctx, parameters) {
     ctx.strokeRect(startX, startY, g,h);
     ctx.closePath();
 
-    let points = generateTrapezePoints(g, d, front_h);
-    points = translatePoints(points, startX, startY+h);
-    drawPoints(ctx,points);
+    let points1 = generateTrapezePoints(g, d, front_h);
+    points1 = translatePoints(points1, startX, startY+h);
+    drawPoints(ctx, points1);
 
     let points2 = generateTrapezePoints(h, e, side_h);
-    points2 = gluePoints(points2, 2, points, 3);
+    points2 = gluePoints(points2, 2, points1, 3);
 
     drawPoints(ctx,points2);
 
