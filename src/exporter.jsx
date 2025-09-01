@@ -185,9 +185,14 @@ function rotatePoints(points, angle) {
   ]);
 }
 
-function gluePoints(t0, p0, t1, p1) {
+function gluePoints(t0, p0, t1, p1, reverseOrder = false) {
 
   let shifted = translatePoints(t0, -t0[p1][0], -t0[p1][1]);
+
+  if (reverseOrder) {
+    shifted.reverse();
+  }
+
 
   let nextP1 = (p1 + 1) % t0.length;
   let v0 = [
@@ -211,6 +216,8 @@ function gluePoints(t0, p0, t1, p1) {
 }
 
 function drawPoints(ctx, points) {
+    ctx.strokeStyle = "#000";
+
     ctx.beginPath();
     ctx.moveTo(points[0][0], points[0][1]);
     for (const point of points.slice(1)) {
@@ -243,13 +250,19 @@ function drawBody(ctx, parameters) {
     ctx.strokeRect(startX, startY, g,h);
     ctx.closePath();
 
-    let points1 = generateTrapezePoints(g, d, front_h);
-    points1 = translatePoints(points1, startX, startY+h);
+    const front = generateTrapezePoints(g, d, front_h);
+    const points1 = translatePoints(front, startX, startY+h);
     drawPoints(ctx, points1);
 
-    let points2 = generateTrapezePoints(h, e, side_h);
-    points2 = gluePoints(points2, 2, points1, 3);
-
+    const side = generateTrapezePoints(h, e, side_h);
+    const points2 = gluePoints(side, 2, points1, 3);
+    drawFold(ctx, [points2[0][0], points2[0][1], points2[1][0], points2[1][1]], 10);
     drawPoints(ctx,points2);
+
+
+    const points0 = gluePoints(front,0, points1, 3, true);
+    //drawPoints(ctx,points0);
+
+
 
 }
