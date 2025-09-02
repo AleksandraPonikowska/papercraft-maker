@@ -187,14 +187,17 @@ function rotatePoints(points, angle) {
 
 function gluePoints(t0, p0, t1, p1, reverseOrder = false) {
 
-  let shifted = translatePoints(t0, -t0[p1][0], -t0[p1][1]);
+  let nextP1 = (p1 + 1) % t0.length;
 
   if (reverseOrder) {
-    shifted.reverse();
+    [p1, nextP1] = [nextP1, p1];
   }
 
 
-  let nextP1 = (p1 + 1) % t0.length;
+  let shifted = translatePoints(t0, -t0[p1][0], -t0[p1][1]);
+
+  
+
   let v0 = [
     t0[nextP1][0] - t0[p1][0],
     t0[nextP1][1] - t0[p1][1]
@@ -209,6 +212,8 @@ function gluePoints(t0, p0, t1, p1, reverseOrder = false) {
   let angle0 = Math.atan2(v0[1], v0[0]);
   let angle1 = Math.atan2(v1[1], v1[0]);
   let rotation = angle1 - angle0;
+
+  
 
   let rotated = rotatePoints(shifted, rotation);
 
@@ -259,9 +264,12 @@ function drawBody(ctx, parameters) {
     drawFold(ctx, [points2[0][0], points2[0][1], points2[1][0], points2[1][1]], 10);
     drawPoints(ctx,points2);
 
+    const points3 = gluePoints(side, 2, points2, 3);
+    drawFold(ctx, [points3[0][0], points3[0][1], points3[1][0], points3[1][1]], 10);
+    drawPoints(ctx, points3);
 
-    const points0 = gluePoints(front,0, points1, 3, true);
-    //drawPoints(ctx,points0);
+    const points0 = gluePoints(front, 0, points1, 1, true);
+    drawPoints(ctx,points0);
 
 
 
