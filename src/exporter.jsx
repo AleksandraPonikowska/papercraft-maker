@@ -237,11 +237,11 @@ function generate3DTrapezePoints(d, e, f, g, h){
     //ctx.strokeRect(startX, startY, g,h);
     //ctx.closePath();
 
-      const startX = 50;
+    const startX = 50;
     const startY = 50;
 
     const front = generateTrapezePoints(g, d, front_h);
-    const points1 = translatePoints(front, startX, startY+h);
+    const points1 = translatePoints(front, startX, startY);
     //drawPoints(ctx, points1);
 
     const side = generateTrapezePoints(h, e, side_h);
@@ -280,9 +280,15 @@ function drawBody(ctx, parameters) {
 
 
     const upperBody = generate3DTrapezePoints(d, e, f, g, h);
-    alert(upperBody)
     upperBody.forEach(points => {drawPoints(ctx, points);});
-    //drawPoints(ctx, translatePoints(upperBody, startX, startY));
+
+
+    const height = upperBody[1][2][1] - 50;
+
+    const lowerBody = generate3DTrapezePoints(a, b, c, d, e);
+    lowerBody
+      .map(points => translatePoints(points, (g-d)/2, height))
+      .forEach(points => drawPoints(ctx, points));
     
 
 
