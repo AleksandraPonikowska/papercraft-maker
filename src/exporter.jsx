@@ -45,8 +45,9 @@ function drawError(ctx, parameters) {
 }
 
 
-function drawFold(ctx, line, depth) {
-  const [x1, y1, x2, y2] = line;
+function generateFold(point1, point2, depth) {
+  const [x1, y1] = point1;
+  const [x2, y2] = point2;
 
   const dx = x2 - x1;
   const dy = y2 - y1;
@@ -64,17 +65,35 @@ function drawFold(ctx, line, depth) {
   const x2Offset = x2 + offsetX;
   const y2Offset = y2 + offsetY;
 
+  return [
+    [x1, y1],
+    [x2, y2],
+    [
+      x2Offset * 0.75 + x1Offset * 0.25,
+      y2Offset * 0.75 + y1Offset * 0.25
+    ],
+    [
+      x2Offset * 0.25 + x1Offset * 0.75,
+      y2Offset * 0.25 + y1Offset * 0.75
+    ]
+  ];
+}
+
+function drawFold(ctx, point1, point2, depth) {
+  const foldPoints = generateFold(point1, point2, depth);
+
   ctx.strokeStyle = "#bbbbbbff";
   ctx.lineWidth = 2;
 
   ctx.beginPath();
-  ctx.moveTo(x1, y1);
-  ctx.lineTo(x2, y2);
-  ctx.lineTo(x2Offset * 3/4 + x1Offset * 1/4, y2Offset * 3/4 + y1Offset * 1/4);
-  ctx.lineTo(x2Offset * 1/4 + x1Offset * 3/4, y2Offset * 1/4 + y1Offset * 3/4);
+  ctx.moveTo(...foldPoints[0]); 
+  ctx.lineTo(...foldPoints[1]); 
+  ctx.lineTo(...foldPoints[2]);
+  ctx.lineTo(...foldPoints[3]);
   ctx.closePath();
   ctx.stroke();
 }
+
 
 
 
@@ -88,17 +107,17 @@ function drawCubeNet(ctx, parameters) {
     const startX = 50;
     const startY = 50 + b;
 
-    drawFold(ctx, [startX, startY, startX+a, startY], 20);
-    drawFold(ctx, [startX+a, startY, startX+a+b, startY], 20);
+    drawFold(ctx, [startX, startY],[startX+a, startY], 20);
+    drawFold(ctx, [startX+a, startY],[startX+a+b, startY], 20);
     //drawFold(ctx, [startX+a+b, startY-b, startX+a+b+a, startY-b], 20);
-    drawFold(ctx, [startX+a+b+a, startY, startX+a+b+a+b, startY], 20);
+    drawFold(ctx, [startX+a+b+a, startY],[startX+a+b+a+b, startY], 20);
 
-    drawFold(ctx, [startX, startY+h, startX+a, startY+h], -20);
-    drawFold(ctx, [startX+a, startY+h, startX+a+b, startY+h], -20);
+    drawFold(ctx, [startX, startY+h],[startX+a, startY+h], -20);
+    drawFold(ctx, [startX+a, startY+h],[startX+a+b, startY+h], -20);
     //drawFold(ctx, [startX+a+b, startY+b+h, startX+a+b+a, startY+b+h], -20);
-    drawFold(ctx, [startX+a+b+a, startY+h, startX+a+b+a+b, startY+h], -20);
+    drawFold(ctx, [startX+a+b+a, startY+h],[startX+a+b+a+b, startY+h], -20);
 
-    drawFold(ctx, [startX+a+b+a+b, startY, startX+a+b+a+b, startY+h], 20);
+    drawFold(ctx, [startX+a+b+a+b, startY],[startX+a+b+a+b, startY+h], 20);
 
 
 
@@ -166,9 +185,7 @@ function generateTrapezePoints(a, b, h){
       [0,0],
       [a,0],
       [a+(b-a)/2 ,h ],
-      [-(b-a)/2, h]
-     
-             
+      [-(b-a)/2, h]             
     ]
 }
 
@@ -254,7 +271,6 @@ function glueObjects(object0, shape0Index, p0Index, object1, shape1Index, p1Inde
 
 
 function drawPoints(ctx, points) {
-    ctx.strokeStyle = "#000";
 
     ctx.beginPath();
     ctx.moveTo(points[0][0], points[0][1]);
@@ -270,33 +286,15 @@ function generate3DTrapezePoints(d, e, f, g, h){
   const front_h = Math.sqrt(f*f + (e-h)/2 * (e-h)/2);
   const side_h = Math.sqrt(f*f + (d-g)/2 * (d-g)/2);
 
-    //ctx.beginPath();
-    //ctx.strokeRect(startX, startY, g,h);
-    //ctx.closePath();
+  const front = generateTrapezePoints(g, d, front_h);
+  const side = generateTrapezePoints(h, e, side_h);
 
-    const startX = 50;
-    const startY = 50;
+  const points1 = translatePoints(front, 0,0);
+  const points2 = gluePoints(side, 2, points1, 3);
+  const points3 = gluePoints(front, 2, points2, 3);
+  const points0 = gluePoints(side, 3, points1, 2, true);
 
-    const front = generateTrapezePoints(g, d, front_h);
-    const points1 = translatePoints(front, 0,0);
-    //drawPoints(ctx, points1);
-
-    const side = generateTrapezePoints(h, e, side_h);
-    const points2 = gluePoints(side, 2, points1, 3);
-    //drawFold(ctx, [points2[0][0], points2[0][1], points2[1][0], points2[1][1]], 10);
-    //drawPoints(ctx,points2);
-
-    const points3 = gluePoints(side, 2, points2, 3);
-    //drawFold(ctx, [points3[0][0], points3[0][1], points3[1][0], points3[1][1]], 10);
-    //drawPoints(ctx, points3);
-
-    const points0 = gluePoints(front, 3, points1, 2, true);
-    //drawPoints(ctx,points0);
-
-    return [points0, points1, points2, points3];
-
-
-
+  return [points0, points1, points2, points3];
 }
 
 
@@ -319,12 +317,33 @@ function drawBody(ctx, parameters) {
     const upperBody = generate3DTrapezePoints(d, e, f, g, h).
       map(points => translatePoints(points, startX, startY));
 
+    const upperRectangle = glueObjects(
+      [generateTrapezePoints(g, g, h)], 0, 3,
+      upperBody, 1, 0,
+      true
+    )
+
     const lowerBody = glueObjects(
       generate3DTrapezePoints(a, b, c, d, e), 1, 0,  
       upperBody, 1, 3     
     );
 
-    upperBody.forEach(points => {drawPoints(ctx, points);});
+    let folds = [];
+    for (const i of [0, 2, 3]) {
+      folds.push(generateFold(upperBody[i][0],upperBody[i][1], 5));
+      folds.push(generateFold(lowerBody[i][0],lowerBody[i][1], 5));
+    }
+
+    ctx.strokeStyle = "#bbbbbbff";
+    ctx.lineWidth = 2;
+
+    folds.forEach(points => drawPoints(ctx, points));
+
+
+    ctx.strokeStyle = "#000";
+
+    upperBody.forEach(points => drawPoints(ctx, points));
+    upperRectangle.forEach(points => drawPoints(ctx, points));
     lowerBody.forEach(points => drawPoints(ctx, points));
     
 
