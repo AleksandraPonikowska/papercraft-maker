@@ -216,6 +216,43 @@ function gluePoints(t0, p0, t1, p1, reverseOrder = false) {
   return translatePoints(rotated, t1[p0][0], t1[p0][1]);
 }
 
+function glueObjects(object0, shape0Index, p0Index, object1, shape1Index, p1Index, reverseOrder = false) {
+    const t0 = object0[shape0Index];
+    const t1 = object1[shape1Index];
+
+    let shifted = translatePoints(t0, -t0[p0Index][0], -t0[p0Index][1]);
+
+    let nextP1 = (p0Index + 1) % t0.length;
+    if (reverseOrder) {
+        nextP1 = (p0Index - 1 + t0.length) % t0.length;
+    }
+
+    let v0 = [
+        t0[nextP1][0] - t0[p0Index][0],
+        t0[nextP1][1] - t0[p0Index][1]
+    ];
+
+    let nextP0 = (p1Index - 1 + t1.length) % t1.length;
+    if (reverseOrder) {
+        nextP0 = (p1Index + 1) % t1.length;
+    }
+
+    let v1 = [
+        t1[nextP0][0] - t1[p1Index][0],
+        t1[nextP0][1] - t1[p1Index][1]
+    ];
+
+    let angle0 = Math.atan2(v0[1], v0[0]);
+    let angle1 = Math.atan2(v1[1], v1[0]);
+    let rotation = angle1 - angle0;
+
+    const rotatedObject = object0.map(points => rotatePoints(translatePoints(points, -t0[p0Index][0], -t0[p0Index][1]), rotation));
+    const gluedObject = rotatedObject.map(points => translatePoints(points, t1[p1Index][0], t1[p1Index][1]));
+
+    return gluedObject;
+}
+
+
 function drawPoints(ctx, points) {
     ctx.strokeStyle = "#000";
 
@@ -241,7 +278,7 @@ function generate3DTrapezePoints(d, e, f, g, h){
     const startY = 50;
 
     const front = generateTrapezePoints(g, d, front_h);
-    const points1 = translatePoints(front, startX, startY);
+    const points1 = translatePoints(front, 0,0);
     //drawPoints(ctx, points1);
 
     const side = generateTrapezePoints(h, e, side_h);
@@ -266,29 +303,29 @@ function generate3DTrapezePoints(d, e, f, g, h){
 
 
 function drawBody(ctx, parameters) {
+  
     ctx.fillStyle = "#fff";
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
 
     const [a, b, c, d, e, f, g, h] = parameters;
     
-    //const startX = 50;
-    //const startY = 50;
+    const startX = 50;
+    const startY = 50;
 
     ctx.strokeStyle = "#000";
     ctx.lineWidth = 2;
 
+    const upperBody = generate3DTrapezePoints(d, e, f, g, h).
+      map(points => translatePoints(points, startX, startY));
 
-    const upperBody = generate3DTrapezePoints(d, e, f, g, h);
+    const lowerBody = glueObjects(
+      generate3DTrapezePoints(a, b, c, d, e), 1, 0,  
+      upperBody, 1, 3     
+    );
+
     upperBody.forEach(points => {drawPoints(ctx, points);});
-
-
-    const height = upperBody[1][2][1] - 50;
-
-    const lowerBody = generate3DTrapezePoints(a, b, c, d, e);
-    lowerBody
-      .map(points => translatePoints(points, (g-d)/2, height))
-      .forEach(points => drawPoints(ctx, points));
+    lowerBody.forEach(points => drawPoints(ctx, points));
     
 
 
