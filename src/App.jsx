@@ -32,14 +32,7 @@ export default function App() {
       name: "Head",
       type: 2,
       parameter: [100, 45]
-    },
-    {
-      id: 5,
-      name: "Body",
-      type: 1,
-      parameter: [25, 30,38,36,36,47,16,20]
     }
-
   ]);
 
   const [hoveredId, setHoveredId] = useState(null);

@@ -20,6 +20,9 @@ export async function exportLayers(layers, canvasRef) {
       case 1:
         drawBody(ctx, layer.parameter);
         break;
+      case 2:
+        drawHead(ctx, layer.parameter);
+        break;
       case 3:
         drawHands(ctx, layer.parameter);
         break;
@@ -346,5 +349,47 @@ function drawBody(ctx, parameters) {
     upperRectangle.forEach(points => drawPoints(ctx, points));
     lowerBody.forEach(points => drawPoints(ctx, points));
     
+
+}
+
+function drawHead(ctx, parameters) {
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    const [a, b] = parameters;
+    const startX = 50;
+    const startY = 50;
+
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 2;
+    
+    ctx.moveTo(startX+a, startY+a/2);
+    ctx.arc(a/2 + startX, a/2 + startY, a/2, 0, Math.PI * 2); 
+        ctx.stroke();
+
+    ctx.strokeStyle = "#bbbbbbff";
+    ctx.lineWidth = 2;
+    
+    
+
+    const points = generateFold([startX, startY + a + 40], [startX + a/2 * Math.PI, startY + a + 40], 0.1, 20);
+    drawPoints(ctx, points);
+    
+
+    const points2 = generateFold([startX, startY + a + 40+b], [startX + a/2 * Math.PI, startY + a + 40+b], 0.1, -20);
+    ctx.beginPath(); 
+    ctx.strokeStyle = "#bbbbbbff";
+    drawPoints(ctx, points2);
+
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 2;
+
+    
+
+    ctx.strokeRect(startX + a + 10, startY, b, a);
+
+    
+
+    ctx.strokeRect(startX, startY + a + 40, a/2 * Math.PI, b);
+
 
 }
