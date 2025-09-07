@@ -45,7 +45,7 @@ function drawError(ctx, parameters) {
 }
 
 
-function generateFold(point1, point2, depth) {
+function generateFold(point1, point2, r, depth) {
   const [x1, y1] = point1;
   const [x2, y2] = point2;
 
@@ -69,12 +69,12 @@ function generateFold(point1, point2, depth) {
     [x1, y1],
     [x2, y2],
     [
-      x2Offset * 0.75 + x1Offset * 0.25,
-      y2Offset * 0.75 + y1Offset * 0.25
+      x2Offset * (1-r) + x1Offset * r,
+      y2Offset * (1-r) + y1Offset * r
     ],
     [
-      x2Offset * 0.25 + x1Offset * 0.75,
-      y2Offset * 0.25 + y1Offset * 0.75
+      x2Offset * r + x1Offset * (1-r),
+      y2Offset * r + y1Offset * (1-r)
     ]
   ];
 }
@@ -330,8 +330,8 @@ function drawBody(ctx, parameters) {
 
     let folds = [];
     for (const i of [0, 2, 3]) {
-      folds.push(generateFold(upperBody[i][0],upperBody[i][1], 5));
-      folds.push(generateFold(lowerBody[i][0],lowerBody[i][1], 5));
+      folds.push(generateFold(upperBody[i][0],upperBody[i][1], 0.45, 10));
+      folds.push(generateFold(lowerBody[i][0],lowerBody[i][1], 0.45, 10));
     }
 
     ctx.strokeStyle = "#bbbbbbff";
@@ -346,6 +346,5 @@ function drawBody(ctx, parameters) {
     upperRectangle.forEach(points => drawPoints(ctx, points));
     lowerBody.forEach(points => drawPoints(ctx, points));
     
-
 
 }
