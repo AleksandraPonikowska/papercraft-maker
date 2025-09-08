@@ -380,6 +380,21 @@ function drawHead(ctx, parameters) {
     ctx.strokeStyle = "#bbbbbbff";
     drawPoints(ctx, points2);
 
+
+    for (const i of [0, 1]) {
+
+      ctx.beginPath();
+
+      const spacing = 5;
+      const offset = (startX + a/2 * Math.PI - startX) * 0.1;
+
+      for (let j = startX + offset; j < startX + a/2 * Math.PI - offset; j += spacing) {
+        ctx.moveTo(j, startY + a + 40 + i * b);
+        ctx.lineTo(j, startY + a + 40 + i * b - (i === 0 ? 20 : -20));
+      }
+      ctx.stroke();
+    }
+
     ctx.strokeStyle = "#000";
     ctx.lineWidth = 2;
 
