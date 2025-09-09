@@ -395,6 +395,13 @@ function drawHead(ctx, parameters) {
       ctx.stroke();
     }
 
+    
+
+    const fold1 = generateFold([startX + a + 10, startY], [startX + a + 10 + b, startY], 0.2, 10);
+    drawPoints(ctx, fold1);
+    const fold2 = generateFold([startX + a + 10, startY+a], [startX + a + 10 + b, startY+a], 0.2, -10);
+    drawPoints(ctx, fold2);
+
     ctx.strokeStyle = "#000";
     ctx.lineWidth = 2;
 
